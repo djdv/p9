@@ -1,7 +1,7 @@
 //go:build linux
 // +build linux
 
-package linux
+package errors
 
 import (
 	"errors"

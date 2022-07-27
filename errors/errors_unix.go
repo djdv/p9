@@ -1,7 +1,7 @@
 //go:build !windows && !linux
 // +build !windows,!linux
 
-package linux
+package errors
 
 import "syscall"
 

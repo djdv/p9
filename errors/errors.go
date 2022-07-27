@@ -1,9 +1,14 @@
-package linux
+package errors
 
 import (
 	"errors"
 	"os"
 )
+
+// Const may be used to convert constant strings into `error` values.
+type Const string
+
+func (errStr Const) Error() string { return string(errStr) }
 
 // ExtractErrno extracts an [Errno] from an error, best effort.
 //
@@ -29,6 +34,7 @@ func ExtractErrno(err error) Errno {
 		return errno
 	}
 
+	// TODO: migrate the implementations of this to use 1.13 semantics.
 	if e := sysErrno(err); e != 0 {
 		return e
 	}

@@ -1,7 +1,7 @@
 //go:build windows
 // +build windows
 
-package linux
+package errors
 
 import (
 	"errors"
