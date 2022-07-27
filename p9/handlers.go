@@ -1027,16 +1027,11 @@ func walkOne(qids []QID, from File, names []string, getattr bool) ([]QID, File, 
 // fidRef returned (newRef) has a reference associated with it that is now
 // owned by the caller and must be handled appropriately.
 func doWalk(cs *connState, ref *fidRef, names []string, getattr bool) (qids []QID, newRef *fidRef, valid AttrMask, attr Attr, err error) {
-	// Check the names.
-	for _, name := range names {
-		err = checkSafeName(name)
-		if err != nil {
-			return
-		}
-	}
+	nwname := len(names)
 
+	// Is this an empty list? Handle specially. We don't actually need to
 	// validate anything since this is always permitted.
-	if len(names) == 0 {
+	if nwname == 0 {
 		var sf File // Temporary.
 		if err := ref.maybeParent().safelyRead(func() (err error) {
 			// Clone the single element.
@@ -1074,6 +1069,16 @@ func doWalk(cs *connState, ref *fidRef, names []string, getattr bool) (qids []QI
 		// Do not return the new QID.
 		// walk(5) "nwqid will always be less than or equal to nwname"
 		return nil, newRef, valid, attr, nil
+	}
+
+	if isClone := nwname == 1 && names[0] == "."; !isClone {
+		// Check the names.
+		for _, name := range names {
+			err = checkSafeName(name)
+			if err != nil {
+				return
+			}
+		}
 	}
 
 	// Do the walk, one element at a time.
