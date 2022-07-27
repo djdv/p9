@@ -974,7 +974,8 @@ func (t *tstatfs) handle(cs *connState) message {
 //
 // The slice passed as qids is append and returned.
 func walkOne(qids []QID, from File, names []string, getattr bool) ([]QID, File, AttrMask, Attr, error) {
-	if len(names) > 1 {
+	nwname := len(names)
+	if nwname > 1 {
 		// We require exactly zero or one elements.
 		return nil, nil, AttrMask{}, Attr{}, linux.EINVAL
 	}
@@ -1011,7 +1012,8 @@ func walkOne(qids []QID, from File, names []string, getattr bool) ([]QID, File, 
 		// Error walking, don't return anything.
 		return nil, nil, AttrMask{}, Attr{}, err
 	}
-	if len(localQIDs) != 1 {
+	if nwname == 1 &&
+		len(localQIDs) != 1 {
 		// Expected a single QID.
 		sf.Close()
 		return nil, nil, AttrMask{}, Attr{}, linux.EINVAL
@@ -1070,8 +1072,7 @@ func doWalk(cs *connState, ref *fidRef, names []string, getattr bool) (qids []QI
 		}
 
 		// Do not return the new QID.
-		//
-		// TODO: why?
+		// walk(5) "nwqid will always be less than or equal to nwname"
 		return nil, newRef, valid, attr, nil
 	}
 
