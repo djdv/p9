@@ -14,9 +14,7 @@
 
 package p9
 
-import (
-	"github.com/hugelgupf/p9/internal/linux"
-)
+import "github.com/hugelgupf/p9/perrors"
 
 // Attacher is provided by the server.
 type Attacher interface {
@@ -65,7 +63,7 @@ type File interface {
 	// WalkGetAttr walks to the next file and returns its maximal set of
 	// attributes.
 	//
-	// Server-side p9.Files may return linux.ENOSYS to indicate that Walk
+	// Server-side p9.Files may return perrors.ENOSYS to indicate that Walk
 	// and GetAttr should be used separately to satisfy this request.
 	//
 	// On the server, WalkGetAttr has a read concurrency guarantee.
@@ -113,7 +111,7 @@ type File interface {
 
 	// ReadAt reads from this file. Open must be called first.
 	//
-	// This may return io.EOF in addition to linux.Errno values.
+	// This may return io.EOF in addition to perrors.Errno values.
 	//
 	// On the server, ReadAt has a read concurrency guarantee. See Open for
 	// additional requirements regarding lazy path resolution.
@@ -121,7 +119,7 @@ type File interface {
 
 	// WriteAt writes to this file. Open must be called first.
 	//
-	// This may return io.EOF in addition to linux.Errno values.
+	// This may return io.EOF in addition to perrors.Errno values.
 	//
 	// On the server, WriteAt has a read concurrency guarantee. See Open
 	// for additional requirements regarding lazy path resolution.
@@ -193,7 +191,7 @@ type File interface {
 	// offset is the entry offset, and count the number of entries to
 	// return.
 	//
-	// This may return io.EOF in addition to linux.Errno values.
+	// This may return io.EOF in addition to perrors.Errno values.
 	//
 	// On the server, Readdir has a read concurrency guarantee.
 	Readdir(offset uint64, count uint32) (Dirents, error)
@@ -221,5 +219,5 @@ type DefaultWalkGetAttr struct{}
 
 // WalkGetAttr implements File.WalkGetAttr.
 func (DefaultWalkGetAttr) WalkGetAttr([]string) ([]QID, File, AttrMask, Attr, error) {
-	return nil, nil, AttrMask{}, Attr{}, linux.ENOSYS
+	return nil, nil, AttrMask{}, Attr{}, perrors.ENOSYS
 }

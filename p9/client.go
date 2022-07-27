@@ -21,7 +21,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/hugelgupf/p9/internal/linux"
+	"github.com/hugelgupf/p9/perrors"
 	"github.com/u-root/uio/ulog"
 )
 
@@ -176,7 +176,7 @@ func NewClient(conn io.ReadWriteCloser, o ...ClientOpt) (*Client, error) {
 		err := c.sendRecv(&tversion{Version: versionString(version9P2000L, requested), MSize: c.messageSize}, &rversion)
 
 		// The server told us to try again with a lower version.
-		if err == linux.EAGAIN {
+		if err == perrors.EAGAIN {
 			if requested == lowestSupportedVersion {
 				return nil, ErrVersionsExhausted
 			}
@@ -324,7 +324,7 @@ func (c *Client) sendRecv(tm message, rm message) error {
 	// For convenience, we transform these directly
 	// into errors. Handlers need not handle this case.
 	if rlerr, ok := resp.r.(*rlerror); ok {
-		return linux.Errno(rlerr.Error)
+		return perrors.Errno(rlerr.Error)
 	}
 
 	// At this point, we know it matches.

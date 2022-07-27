@@ -23,8 +23,8 @@
 package templatefs
 
 import (
-	"github.com/hugelgupf/p9/internal/linux"
 	"github.com/hugelgupf/p9/p9"
+	"github.com/hugelgupf/p9/perrors"
 )
 
 // NilCloser returns nil for Close.
@@ -48,103 +48,101 @@ type NoopFile struct {
 	NoopRenamed
 }
 
-var (
-	_ p9.File = &NoopFile{}
-)
+var _ p9.File = &NoopFile{}
 
 // Walk implements p9.File.Walk.
 func (NoopFile) Walk(names []string) ([]p9.QID, p9.File, error) {
-	return nil, nil, linux.ENOSYS
+	return nil, nil, perrors.ENOSYS
 }
 
 // StatFS implements p9.File.StatFS.
 //
 // Not implemented.
 func (NoopFile) StatFS() (p9.FSStat, error) {
-	return p9.FSStat{}, linux.ENOSYS
+	return p9.FSStat{}, perrors.ENOSYS
 }
 
 // Open implements p9.File.Open.
 func (NoopFile) Open(mode p9.OpenFlags) (p9.QID, uint32, error) {
-	return p9.QID{}, 0, linux.ENOSYS
+	return p9.QID{}, 0, perrors.ENOSYS
 }
 
 // ReadAt implements p9.File.ReadAt.
 func (NoopFile) ReadAt(p []byte, offset int64) (int, error) {
-	return 0, linux.ENOSYS
+	return 0, perrors.ENOSYS
 }
 
 // GetAttr implements p9.File.GetAttr.
 func (NoopFile) GetAttr(req p9.AttrMask) (p9.QID, p9.AttrMask, p9.Attr, error) {
-	return p9.QID{}, p9.AttrMask{}, p9.Attr{}, linux.ENOSYS
+	return p9.QID{}, p9.AttrMask{}, p9.Attr{}, perrors.ENOSYS
 }
 
 // SetAttr implements p9.File.SetAttr.
 func (NoopFile) SetAttr(valid p9.SetAttrMask, attr p9.SetAttr) error {
-	return linux.ENOSYS
+	return perrors.ENOSYS
 }
 
 // Remove implements p9.File.Remove.
 func (NoopFile) Remove() error {
-	return linux.ENOSYS
+	return perrors.ENOSYS
 }
 
 // Rename implements p9.File.Rename.
 func (NoopFile) Rename(directory p9.File, name string) error {
-	return linux.ENOSYS
+	return perrors.ENOSYS
 }
 
 // FSync implements p9.File.FSync.
 func (NoopFile) FSync() error {
-	return linux.ENOSYS
+	return perrors.ENOSYS
 }
 
 // WriteAt implements p9.File.WriteAt.
 func (NoopFile) WriteAt(p []byte, offset int64) (int, error) {
-	return 0, linux.ENOSYS
+	return 0, perrors.ENOSYS
 }
 
 // Create implements p9.File.Create.
 func (NoopFile) Create(name string, mode p9.OpenFlags, permissions p9.FileMode, _ p9.UID, _ p9.GID) (p9.File, p9.QID, uint32, error) {
-	return nil, p9.QID{}, 0, linux.ENOSYS
+	return nil, p9.QID{}, 0, perrors.ENOSYS
 }
 
 // Mkdir implements p9.File.Mkdir.
 func (NoopFile) Mkdir(name string, permissions p9.FileMode, _ p9.UID, _ p9.GID) (p9.QID, error) {
-	return p9.QID{}, linux.ENOSYS
+	return p9.QID{}, perrors.ENOSYS
 }
 
 // Symlink implements p9.File.Symlink.
 func (NoopFile) Symlink(oldname string, newname string, _ p9.UID, _ p9.GID) (p9.QID, error) {
-	return p9.QID{}, linux.ENOSYS
+	return p9.QID{}, perrors.ENOSYS
 }
 
 // Link implements p9.File.Link.
 func (NoopFile) Link(target p9.File, newname string) error {
-	return linux.ENOSYS
+	return perrors.ENOSYS
 }
 
 // Mknod implements p9.File.Mknod.
 func (NoopFile) Mknod(name string, mode p9.FileMode, major uint32, minor uint32, _ p9.UID, _ p9.GID) (p9.QID, error) {
-	return p9.QID{}, linux.ENOSYS
+	return p9.QID{}, perrors.ENOSYS
 }
 
 // RenameAt implements p9.File.RenameAt.
 func (NoopFile) RenameAt(oldname string, newdir p9.File, newname string) error {
-	return linux.ENOSYS
+	return perrors.ENOSYS
 }
 
 // UnlinkAt implements p9.File.UnlinkAt.
 func (NoopFile) UnlinkAt(name string, flags uint32) error {
-	return linux.ENOSYS
+	return perrors.ENOSYS
 }
 
 // Readdir implements p9.File.Readdir.
 func (NoopFile) Readdir(offset uint64, count uint32) (p9.Dirents, error) {
-	return nil, linux.ENOSYS
+	return nil, perrors.ENOSYS
 }
 
 // Readlink implements p9.File.Readlink.
 func (NoopFile) Readlink() (string, error) {
-	return "", linux.ENOSYS
+	return "", perrors.ENOSYS
 }
