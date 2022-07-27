@@ -2,13 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package linux
+package perrors
 
-import (
-	"fmt"
-)
+import "fmt"
 
-// Errno is a Linux error number on every GOOS.
+// Errno is a 9P2000.L/Linux error number on every GOOS.
 type Errno uintptr
 
 func (e Errno) Error() string {
@@ -21,7 +19,7 @@ func (e Errno) Error() string {
 	return fmt.Sprintf("errno %d", int(e))
 }
 
-//  numbers defined on Linux/amd64.
+// numbers defined on Linux/amd64.
 const (
 	E2BIG           = Errno(0x7)
 	EACCES          = Errno(0xd)
