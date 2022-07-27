@@ -20,8 +20,8 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/hugelgupf/p9/errors"
 	"github.com/hugelgupf/p9/fsimpl/templatefs"
-	"github.com/hugelgupf/p9/internal/linux"
 	"github.com/hugelgupf/p9/p9"
 )
 
@@ -109,7 +109,7 @@ func (d *dir) Open(mode p9.OpenFlags) (p9.QID, uint32, error) {
 	if mode == p9.ReadOnly {
 		return d.qid, 4096, nil
 	}
-	return p9.QID{}, 0, linux.EROFS
+	return p9.QID{}, 0, errors.EROFS
 }
 
 // Walk implements p9.File.Walk.
@@ -121,12 +121,12 @@ func (d *dir) Walk(names []string) ([]p9.QID, p9.File, error) {
 	case 1:
 		content, ok := d.a.files[names[0]]
 		if !ok {
-			return nil, nil, linux.ENOENT
+			return nil, nil, errors.ENOENT
 		}
 		qid := d.a.qids.Get(p9.TypeRegular)
 		return []p9.QID{qid}, ReadOnlyFile(content, qid), nil
 	default:
-		return nil, nil, linux.ENOENT
+		return nil, nil, errors.ENOENT
 	}
 }
 
@@ -195,7 +195,7 @@ func (f *file) Walk(names []string) ([]p9.QID, p9.File, error) {
 	if len(names) == 0 {
 		return []p9.QID{f.qid}, f, nil
 	}
-	return nil, nil, linux.ENOTDIR
+	return nil, nil, errors.ENOTDIR
 }
 
 // Open implements p9.File.Open.
@@ -203,7 +203,7 @@ func (f *file) Open(mode p9.OpenFlags) (p9.QID, uint32, error) {
 	if mode == p9.ReadOnly {
 		return f.qid, 4096, nil
 	}
-	return p9.QID{}, 0, linux.EROFS
+	return p9.QID{}, 0, errors.EROFS
 }
 
 // GetAttr implements p9.File.GetAttr.

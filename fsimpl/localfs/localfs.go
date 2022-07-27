@@ -19,9 +19,9 @@ import (
 	"os"
 	"path"
 
+	"github.com/hugelgupf/p9/errors"
 	"github.com/hugelgupf/p9/fsimpl/templatefs"
 	"github.com/hugelgupf/p9/internal"
-	"github.com/hugelgupf/p9/internal/linux"
 	"github.com/hugelgupf/p9/p9"
 )
 
@@ -270,7 +270,7 @@ func (l *Local) SetAttr(valid p9.SetAttrMask, attr p9.SetAttr) error {
 	// When truncate(2) is called on Linux, Linux will try to set time & size. Fake it. Sorry.
 	supported := p9.SetAttrMask{Size: true, MTime: true, CTime: true}
 	if !valid.IsSubsetOf(supported) {
-		return linux.ENOSYS
+		return errors.ENOSYS
 	}
 
 	if valid.Size {

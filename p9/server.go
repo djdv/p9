@@ -22,7 +22,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/hugelgupf/p9/internal/linux"
+	"github.com/hugelgupf/p9/errors"
 	"github.com/u-root/uio/ulog"
 )
 
@@ -463,7 +463,7 @@ func (cs *connState) handleRequest() {
 			// Wrap in an EFAULT error; we don't really have a
 			// better way to describe this kind of error. It will
 			// usually manifest as a result of the test framework.
-			r = newErr(linux.EFAULT)
+			r = newErr(errors.EFAULT)
 		}
 
 		// Clear the tag before sending. That's because as soon as this
@@ -482,7 +482,7 @@ func (cs *connState) handleRequest() {
 		r = handler.handle(cs)
 	} else {
 		// Produce an ENOSYS error.
-		r = newErr(linux.ENOSYS)
+		r = newErr(errors.ENOSYS)
 	}
 	msgDotLRegistry.put(m)
 	m = nil // 'm' should not be touched after this point.

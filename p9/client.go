@@ -15,30 +15,31 @@
 package p9
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"log"
 	"sync"
 
-	"github.com/hugelgupf/p9/internal/linux"
+	"github.com/hugelgupf/p9/errors"
 	"github.com/u-root/uio/ulog"
 )
 
-// ErrOutOfTags indicates no tags are available.
-var ErrOutOfTags = errors.New("out of tags -- messages lost?")
+const (
+	// ErrOutOfTags indicates no tags are available.
+	ErrOutOfTags = errors.Const("out of tags -- messages lost?")
 
-// ErrOutOfFIDs indicates no more FIDs are available.
-var ErrOutOfFIDs = errors.New("out of FIDs -- messages lost?")
+	// ErrOutOfFIDs indicates no more FIDs are available.
+	ErrOutOfFIDs = errors.Const("out of FIDs -- messages lost?")
 
-// ErrUnexpectedTag indicates a response with an unexpected tag was received.
-var ErrUnexpectedTag = errors.New("unexpected tag in response")
+	// ErrUnexpectedTag indicates a response with an unexpected tag was received.
+	ErrUnexpectedTag = errors.Const("unexpected tag in response")
 
-// ErrVersionsExhausted indicates that all versions to negotiate have been exhausted.
-var ErrVersionsExhausted = errors.New("exhausted all versions to negotiate")
+	// ErrVersionsExhausted indicates that all versions to negotiate have been exhausted.
+	ErrVersionsExhausted = errors.Const("exhausted all versions to negotiate")
 
-// ErrBadVersionString indicates that the version string is malformed or unsupported.
-var ErrBadVersionString = errors.New("bad version string")
+	// ErrBadVersionString indicates that the version string is malformed or unsupported.
+	ErrBadVersionString = errors.Const("bad version string")
+)
 
 // ErrBadResponse indicates the response didn't match the request.
 type ErrBadResponse struct {
@@ -176,7 +177,7 @@ func NewClient(conn io.ReadWriteCloser, o ...ClientOpt) (*Client, error) {
 		err := c.sendRecv(&tversion{Version: versionString(version9P2000L, requested), MSize: c.messageSize}, &rversion)
 
 		// The server told us to try again with a lower version.
-		if err == linux.EAGAIN {
+		if err == errors.EAGAIN {
 			if requested == lowestSupportedVersion {
 				return nil, ErrVersionsExhausted
 			}
@@ -324,7 +325,7 @@ func (c *Client) sendRecv(tm message, rm message) error {
 	// For convenience, we transform these directly
 	// into errors. Handlers need not handle this case.
 	if rlerr, ok := resp.r.(*rlerror); ok {
-		return linux.Errno(rlerr.Error)
+		return errors.Errno(rlerr.Error)
 	}
 
 	// At this point, we know it matches.
