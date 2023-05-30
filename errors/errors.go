@@ -2,7 +2,6 @@ package errors
 
 import (
 	"errors"
-	"log"
 	"os"
 )
 
@@ -41,8 +40,5 @@ func ExtractErrno(err error) Errno {
 	}
 
 	// Default case.
-	//
-	// TODO: give the ability to turn this off.
-	log.Printf("unknown error: %v", err)
 	return EIO
 }

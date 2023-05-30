@@ -17,7 +17,6 @@ package p9
 import (
 	"fmt"
 	"io"
-	"log"
 	"net"
 	"runtime/debug"
 	"sync"
@@ -467,7 +466,7 @@ func (cs *connState) handleRequest() {
 			rec := recover()
 
 			// Include a useful log message.
-			log.Printf("panic in handler - %v: %s", rec, debug.Stack())
+			cs.server.log.Printf("panic in handler - %v: %s", rec, debug.Stack())
 
 			// Wrap in an EFAULT error; we don't really have a
 			// better way to describe this kind of error. It will
