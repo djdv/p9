@@ -5,6 +5,11 @@ import (
 	"os"
 )
 
+// Const may be used to convert constant strings into `error` values.
+type Const string
+
+func (errStr Const) Error() string { return string(errStr) }
+
 // ExtractErrno extracts an [Errno] from an error, best effort.
 //
 // If the system-specific or Go-specific error cannot be mapped to anything, it
