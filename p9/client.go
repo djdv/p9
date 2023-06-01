@@ -251,7 +251,7 @@ func (c *Client) handleOne() {
 	} else {
 		// Process the tag.
 		//
-		// We know that is is contained in the map because our lookup function
+		// We know that is contained in the map because our lookup function
 		// above must have succeeded (found the tag) to return nil err.
 		c.pendingMu.Lock()
 		resp := c.pending[t]
