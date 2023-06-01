@@ -30,7 +30,7 @@ type Stat_t struct {
 func InfoToStat(fi os.FileInfo) *Stat_t {
 	return &Stat_t{
 		Size: fi.Size(),
-		Mode: uint32(modeFromOS(fi.Mode())),
+		Mode: modeFromOS(fi.Mode()),
 		Mtim: Timespec{
 			Sec:  fi.ModTime().Unix(),
 			Nsec: fi.ModTime().UnixNano(),
