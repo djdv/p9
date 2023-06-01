@@ -59,13 +59,13 @@ type payloader interface {
 
 // tversion is a version request.
 type tversion struct {
-	// MSize is the message size to use.
-	MSize uint32
-
 	// Version is the version string.
 	//
 	// For this implementation, this must be 9P2000.L.
 	Version string
+
+	// MSize is the message size to use.
+	MSize uint32
 }
 
 // decode implements encoder.decode.
@@ -92,11 +92,11 @@ func (t *tversion) String() string {
 
 // rversion is a version response.
 type rversion struct {
-	// MSize is the negotiated size.
-	MSize uint32
-
 	// Version is the negotiated version.
 	Version string
+
+	// MSize is the negotiated size.
+	MSize uint32
 }
 
 // decode implements encoder.decode.
@@ -168,14 +168,14 @@ func (r *rflush) String() string {
 
 // twalk is a walk request.
 type twalk struct {
+	// Names are the set of names to be walked.
+	Names []string
+
 	// fid is the fid to be walked.
 	fid fid
 
 	// newFID is the resulting fid.
 	newFID fid
-
-	// Names are the set of names to be walked.
-	Names []string
 }
 
 // decode implements encoder.decode.
@@ -365,14 +365,14 @@ func (r *rlerror) String() string {
 
 // tauth is an authentication request.
 type tauth struct {
-	// Authenticationfid is the fid to attach the authentication result.
-	Authenticationfid fid
-
 	// UserName is the user to attach.
 	UserName string
 
 	// AttachName is the attach name.
 	AttachName string
+
+	// Authenticationfid is the fid to attach the authentication result.
+	Authenticationfid fid
 
 	// UserID is the numeric identifier for UserName.
 	UID UID
@@ -423,13 +423,13 @@ func (r *rauth) String() string {
 
 // tattach is an attach request.
 type tattach struct {
-	// fid is the fid to be attached.
-	fid fid
-
 	// Auth is the embedded authentication request.
 	//
 	// See client.Attach for information regarding authentication.
 	Auth tauth
+
+	// fid is the fid to be attached.
+	fid fid
 }
 
 // decode implements encoder.decode.
@@ -533,13 +533,13 @@ func (r *rlopen) String() string {
 
 // tlcreate is a create request.
 type tlcreate struct {
+	// Name is the file name to create.
+	Name string
+
 	// fid is the parent fid.
 	//
 	// This becomes the new file.
 	fid fid
-
-	// Name is the file name to create.
-	Name string
 
 	// Mode is the open mode (O_RDWR, etc.).
 	//
@@ -601,14 +601,14 @@ func (r *rlcreate) String() string {
 
 // tsymlink is a symlink request.
 type tsymlink struct {
-	// Directory is the directory fid.
-	Directory fid
-
 	// Name is the new in the directory.
 	Name string
 
 	// Target is the symlink target.
 	Target string
+
+	// Directory is the directory fid.
+	Directory fid
 
 	// GID is the owning group.
 	GID GID
@@ -668,14 +668,14 @@ func (r *rsymlink) String() string {
 
 // tlink is a link request.
 type tlink struct {
+	// Name is the new source name.
+	Name string
+
 	// Directory is the directory to contain the link.
 	Directory fid
 
 	// fid is the target.
 	Target fid
-
-	// Name is the new source name.
-	Name string
 }
 
 // decode implements encoder.decode.
@@ -725,17 +725,17 @@ func (r *rlink) String() string {
 
 // trenameat is a rename request.
 type trenameat struct {
-	// OldDirectory is the source directory.
-	OldDirectory fid
-
 	// OldName is the source file name.
 	OldName string
 
-	// NewDirectory is the target directory.
-	NewDirectory fid
-
 	// NewName is the new file name.
 	NewName string
+
+	// OldDirectory is the source directory.
+	OldDirectory fid
+
+	// NewDirectory is the target directory.
+	NewDirectory fid
 }
 
 // decode implements encoder.decode.
@@ -787,11 +787,11 @@ func (r *rrenameat) String() string {
 
 // tunlinkat is an unlink request.
 type tunlinkat struct {
-	// Directory is the originating directory.
-	Directory fid
-
 	// Name is the name of the entry to unlink.
 	Name string
+
+	// Directory is the originating directory.
+	Directory fid
 
 	// Flags are extra flags (e.g. O_DIRECTORY). These are not interpreted by p9.
 	Flags uint32
@@ -844,14 +844,14 @@ func (r *runlinkat) String() string {
 
 // trename is a rename request.
 type trename struct {
+	// Name is the new file name.
+	Name string
+
 	// fid is the fid to rename.
 	fid fid
 
 	// Directory is the target directory.
 	Directory fid
-
-	// Name is the new file name.
-	Name string
 }
 
 // decode implements encoder.decode.
@@ -993,10 +993,9 @@ func (t *tread) String() string {
 // PayloadCleanup causes it to panic, and putting connState in the fuzzer seems
 // excessive.
 type rreadPayloader struct {
+	cs *connState
 	rread
-
 	fullBuffer []byte
-	cs         *connState
 }
 
 // rread is the response for a Tread.
@@ -1072,14 +1071,14 @@ func (r *rread) String() string {
 
 // twrite is a write request.
 type twrite struct {
+	// Data is the data to be written.
+	Data []byte
+
 	// fid is the fid to read.
 	fid fid
 
 	// Offset indicates the file offset.
 	Offset uint64
-
-	// Data is the data to be written.
-	Data []byte
 }
 
 // decode implements encoder.decode.
@@ -1155,11 +1154,11 @@ func (r *rwrite) String() string {
 
 // tmknod is a mknod request.
 type tmknod struct {
-	// Directory is the parent directory.
-	Directory fid
-
 	// Name is the device name.
 	Name string
+
+	// Directory is the parent directory.
+	Directory fid
 
 	// Mode is the device mode and permissions.
 	Mode FileMode
@@ -1232,11 +1231,11 @@ func (r *rmknod) String() string {
 
 // tmkdir is a mkdir request.
 type tmkdir struct {
-	// Directory is the parent directory.
-	Directory fid
-
 	// Name is the new directory name.
 	Name string
+
+	// Directory is the parent directory.
+	Directory fid
 
 	// Permissions is the set of permission bits.
 	Permissions FileMode
@@ -1423,14 +1422,14 @@ func (r *rsetattr) String() string {
 
 // txattrwalk walks extended attributes.
 type txattrwalk struct {
+	// Name is the attribute name.
+	Name string
+
 	// fid is the fid to check for attributes.
 	fid fid
 
 	// newFID is the new fid associated with the attributes.
 	newFID fid
-
-	// Name is the attribute name.
-	Name string
 }
 
 // decode implements encoder.decode.
@@ -1485,13 +1484,13 @@ func (r *rxattrwalk) String() string {
 
 // txattrcreate prepare to set extended attributes.
 type txattrcreate struct {
+	// Name is the attribute name.
+	Name string
+
 	// fid is input/output parameter, it identifies the file on which
 	// extended attributes will be set but after successful Rxattrcreate
 	// it is used to write the extended attribute value.
 	fid fid
-
-	// Name is the attribute name.
-	Name string
 
 	// Size of the attribute value. When the fid is clunked it has to match
 	// the number of bytes written to the fid.
@@ -1586,11 +1585,6 @@ func (t *treaddir) String() string {
 
 // rreaddir is a readdir response.
 type rreaddir struct {
-	// Count is the byte limit.
-	//
-	// This should always be set from the Treaddir request.
-	Count uint32
-
 	// Entries are the resulting entries.
 	//
 	// This may be constructed in decode.
@@ -1600,6 +1594,11 @@ type rreaddir struct {
 	//
 	// This is constructed by encode.
 	payload []byte
+
+	// Count is the byte limit.
+	//
+	// This should always be set from the Treaddir request.
+	Count uint32
 }
 
 // decode implements encoder.decode.
@@ -1762,14 +1761,14 @@ func (r *rstatfs) String() string {
 
 // twalkgetattr is a walk request.
 type twalkgetattr struct {
+	// Names are the set of names to be walked.
+	Names []string
+
 	// fid is the fid to be walked.
 	fid fid
 
 	// newFID is the resulting fid.
 	newFID fid
-
-	// Names are the set of names to be walked.
-	Names []string
 }
 
 // decode implements encoder.decode.
@@ -1805,14 +1804,14 @@ func (t *twalkgetattr) String() string {
 
 // rwalkgetattr is a walk response.
 type rwalkgetattr struct {
+	// QIDs are the set of QIDs returned.
+	QIDs []QID
+
 	// Valid indicates which fields are valid in the Attr below.
 	Valid AttrMask
 
 	// Attr is the set of attributes for the last QID (the file walked to).
 	Attr Attr
-
-	// QIDs are the set of QIDs returned.
-	QIDs []QID
 }
 
 // decode implements encoder.decode.
@@ -2094,6 +2093,12 @@ func (s LockStatus) String() string {
 
 // tlock is a Tlock message
 type tlock struct {
+	// "client_id is an additional mechanism for uniquely
+	// identifying the lock requester and is set to the nodename
+	// by the Linux v9fs client."
+	// https://github.com/chaos/diod/blob/master/protocol.md#lock---acquire-or-release-a-posix-record-lock
+	Client string // Client id -- but technically can be anything.
+
 	// fid is the fid to lock.
 	fid fid
 
@@ -2102,12 +2107,6 @@ type tlock struct {
 	Start  uint64    // Starting offset for lock
 	Length uint64    // Number of bytes to lock
 	PID    int32     // PID of process blocking our lock (F_GETLK only)
-
-	// "client_id is an additional mechanism for uniquely
-	// identifying the lock requester and is set to the nodename
-	// by the Linux v9fs client."
-	// https://github.com/chaos/diod/blob/master/protocol.md#lock---acquire-or-release-a-posix-record-lock
-	Client string // Client id -- but technically can be anything.
 }
 
 // decode implements encoder.decode.

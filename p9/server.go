@@ -31,6 +31,9 @@ type Server struct {
 	// attacher provides the attach function.
 	attacher Attacher
 
+	// log is a logger to log to, if specified.
+	log ulog.Logger
+
 	// pathTree is the full set of paths opened on this server.
 	//
 	// These may be across different connections, but rename operations
@@ -43,9 +46,6 @@ type Server struct {
 	// acquire two path nodes in any order, as all other concurrent
 	// operations acquire at most a single node.
 	renameMu sync.RWMutex
-
-	// log is a logger to log to, if specified.
-	log ulog.Logger
 }
 
 // ServerOpt is an optional config for a new server.
@@ -73,83 +73,60 @@ func NewServer(attacher Attacher, o ...ServerOpt) *Server {
 
 // connState is the state for a single connection.
 type connState struct {
-	// server is the backing server.
-	server *Server
-
-	// sendMu is the send lock.
-	sendMu sync.Mutex
-
+	readBufPool sync.Pool
 	// t reads T messages and r write R messages
 	t io.ReadCloser
 	r io.WriteCloser
 
+	// recvDone is signalled when a message is received.
+	recvDone chan error
+
 	// fids is the set of active fids.
 	//
 	// This is used to find fids for files.
-	fidMu sync.Mutex
-	fids  map[fid]*fidRef
+	fids map[fid]*fidRef
 
 	// tags is the set of active tags.
 	//
 	// The given channel is closed when the
 	// tag is finished with processing.
-	tagMu sync.Mutex
-	tags  map[tag]chan struct{}
+	tags map[tag]chan struct{}
 
-	// messageSize is the maximum message size. The server does not
-	// do automatic splitting of messages.
-	messageSize   uint32
-	readBufPool   sync.Pool
-	pristineZeros []byte
+	// server is the backing server.
+	server *Server
 
-	// baseVersion is the version of 9P protocol.
-	baseVersion baseVersion
-
-	// version is the agreed upon version X of 9P2000.L.Google.X.
-	// version 0 implies 9P2000.L.
-	version uint32
+	// sendDone is signalled when a send is finished.
+	sendDone chan error
 
 	// recvOkay indicates that a receive may start.
 	recvOkay chan bool
 
-	// recvDone is signalled when a message is received.
-	recvDone chan error
+	// baseVersion is the version of 9P protocol.
+	baseVersion baseVersion
 
-	// sendDone is signalled when a send is finished.
-	sendDone chan error
+	pristineZeros []byte
+
+	// sendMu is the send lock.
+	sendMu sync.Mutex
+	fidMu  sync.Mutex
+	tagMu  sync.Mutex
+
+	// messageSize is the maximum message size. The server does not
+	// do automatic splitting of messages.
+	messageSize uint32
+
+	// version is the agreed upon version X of 9P2000.L.Google.X.
+	// version 0 implies 9P2000.L.
+	version uint32
 }
 
 // fidRef wraps a node and tracks references.
 type fidRef struct {
-	// server is the associated server.
-	server *Server
-
 	// file is the associated File.
 	file File
 
-	// refs is an active refence count.
-	//
-	// The node above will be closed only when refs reaches zero.
-	refs int64
-
-	// openedMu protects opened and openFlags.
-	openedMu sync.Mutex
-
-	// opened indicates whether this has been opened already.
-	//
-	// This is updated in handlers.go.
-	opened bool
-
-	// mode is the fidRef's mode from the walk. Only the type bits are
-	// valid, the permissions may change. This is used to sanity check
-	// operations on this element, and prevent walks across
-	// non-directories.
-	mode FileMode
-
-	// openFlags is the mode used in the open.
-	//
-	// This is updated in handlers.go.
-	openFlags OpenFlags
+	// server is the associated server.
+	server *Server
 
 	// pathNode is the current pathNode for this fid.
 	pathNode *pathNode
@@ -169,10 +146,34 @@ type fidRef struct {
 	// directly.
 	parent *fidRef
 
+	// refs is an active refence count.
+	//
+	// The node above will be closed only when refs reaches zero.
+	refs int64
+
+	// openedMu protects opened and openFlags.
+	openedMu sync.Mutex
+
+	// mode is the fidRef's mode from the walk. Only the type bits are
+	// valid, the permissions may change. This is used to sanity check
+	// operations on this element, and prevent walks across
+	// non-directories.
+	mode FileMode
+
+	// openFlags is the mode used in the open.
+	//
+	// This is updated in handlers.go.
+	openFlags OpenFlags
+
 	// deleted indicates that the backing file has been deleted. We stop
 	// many operations at the API level if they are incompatible with a
 	// file that has already been unlinked.
 	deleted uint32
+
+	// opened indicates whether this has been opened already.
+	//
+	// This is updated in handlers.go.
+	opened bool
 }
 
 // OpenFlags returns the flags the file was opened with and true iff the fid was opened previously.

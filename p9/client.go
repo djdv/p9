@@ -73,24 +73,27 @@ type Client struct {
 	// conn is the connected conn.
 	conn io.ReadWriteCloser
 
-	// tagPool is the collection of available tags.
-	tagPool pool
-
-	// fidPool is the collection of available fids.
-	fidPool pool
+	// log is the logger to write to, if specified.
+	log ulog.Logger
 
 	// pending is the set of pending messages.
-	pending   map[tag]*response
-	pendingMu sync.Mutex
-
-	// sendMu is the lock for sending a request.
-	sendMu sync.Mutex
+	pending map[tag]*response
 
 	// recvr is essentially a mutex for calling recv.
 	//
 	// Whoever writes to this channel is permitted to call recv. When
 	// finished calling recv, this channel should be emptied.
 	recvr chan bool
+
+	// tagPool is the collection of available tags.
+	tagPool pool
+
+	// fidPool is the collection of available fids.
+	fidPool pool
+
+	// sendMu is the lock for sending a request.
+	sendMu    sync.Mutex
+	pendingMu sync.Mutex
 
 	// messageSize is the maximum total size of a message.
 	messageSize uint32
@@ -104,9 +107,6 @@ type Client struct {
 	// version is the agreed upon version X of 9P2000.L.Google.X.
 	// version 0 implies 9P2000.L.
 	version uint32
-
-	// log is the logger to write to, if specified.
-	log ulog.Logger
 }
 
 // ClientOpt enables optional client configuration.

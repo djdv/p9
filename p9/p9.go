@@ -1041,6 +1041,9 @@ func (d Dirents) Find(name string) *Dirent {
 
 // Dirent represents a directory entry in File.Readdir.
 type Dirent struct {
+	// Name is the name of the entry (i.e. basename).
+	Name string
+
 	// QID is the entry QID.
 	QID QID
 
@@ -1051,9 +1054,6 @@ type Dirent struct {
 
 	// Type is the 9P type.
 	Type QIDType
-
-	// Name is the name of the entry (i.e. basename).
-	Name string
 }
 
 // String implements fmt.Stringer.

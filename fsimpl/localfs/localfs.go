@@ -55,8 +55,8 @@ type Local struct {
 	p9.DefaultWalkGetAttr
 	templatefs.NoopFile
 
-	path string
 	file *os.File
+	path string
 }
 
 var _ p9.File = &Local{}

@@ -65,10 +65,10 @@ type attacher struct {
 	// files maps filenames to file contents.
 	files map[string]string
 
+	qids *p9.QIDGenerator
+
 	// names is a sorted list of the keys of files.
 	names []string
-
-	qids *p9.QIDGenerator
 }
 
 // Attach implements p9.Attacher.Attach.
@@ -100,8 +100,8 @@ type dir struct {
 	templatefs.NoopRenamed
 	templatefs.NotLockable
 
-	qid p9.QID
 	a   *attacher
+	qid p9.QID
 }
 
 // Open implements p9.File.Open.

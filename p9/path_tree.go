@@ -31,15 +31,6 @@ import (
 //	Two different pathNodes may only be locked if Server.renameMu is held for
 //	write, in which case they can be acquired in any order.
 type pathNode struct {
-	// opMu synchronizes high-level, sematic operations, such as the
-	// simultaneous creation and deletion of a file.
-	//
-	// opMu does not directly protect any fields in pathNode.
-	opMu sync.RWMutex
-
-	// childMu protects the fields below.
-	childMu sync.RWMutex
-
 	// childNodes maps child path component names to their pathNode.
 	childNodes map[string]*pathNode
 
@@ -50,6 +41,15 @@ type pathNode struct {
 	// childRefNames maps child references back to their path component
 	// name.
 	childRefNames map[*fidRef]string
+
+	// opMu synchronizes high-level, sematic operations, such as the
+	// simultaneous creation and deletion of a file.
+	//
+	// opMu does not directly protect any fields in pathNode.
+	opMu sync.RWMutex
+
+	// childMu protects the fields below.
+	childMu sync.RWMutex
 }
 
 func newPathNode() *pathNode {
