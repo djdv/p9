@@ -15,6 +15,7 @@
 package p9
 
 import (
+	goerrors "errors"
 	"fmt"
 	"io"
 	"path"
@@ -701,7 +702,7 @@ func (t *tread) handle(cs *connState) message {
 
 		n, err = ref.file.ReadAt(dataBuf[:t.Count], int64(t.Offset))
 		return err
-	}); err != nil && err != io.EOF {
+	}); err != nil && !goerrors.Is(err, io.EOF) {
 		return newErr(err)
 	}
 
@@ -938,7 +939,7 @@ func (t *treaddir) handle(cs *connState) message {
 
 		// Read the entries.
 		entries, err = ref.file.Readdir(t.Offset, t.Count)
-		if err != nil && err != io.EOF {
+		if err != nil && !goerrors.Is(err, io.EOF) {
 			return err
 		}
 		return nil
@@ -1026,7 +1027,7 @@ func walkOne(qids []QID, from File, names []string, getattr bool) ([]QID, File, 
 	case getattr:
 		localQIDs, sf, valid, attr, err = from.WalkGetAttr(names)
 		// Can't put fallthrough in the if because Go.
-		if err != errors.ENOSYS {
+		if !goerrors.Is(err, errors.ENOSYS) {
 			break
 		}
 		fallthrough

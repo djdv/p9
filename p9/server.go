@@ -206,7 +206,7 @@ func (f *fidRef) DecRef() error {
 					return pErr
 				}
 				// TODO: better format.
-				return fmt.Errorf("file: %w\n\tparent: %s", err, pErr)
+				return fmt.Errorf("file: %w\n\tparent: %w", err, pErr)
 			}
 		}
 		return err
