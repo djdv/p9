@@ -15,19 +15,13 @@
 package localfs
 
 import (
-	"io/ioutil"
-	"os"
 	"testing"
 
 	"github.com/hugelgupf/p9/fsimpl/test"
 )
 
 func TestLocalFS(t *testing.T) {
-	tempDir, err := ioutil.TempDir("", "localfs-")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(tempDir)
+	tempDir := t.TempDir()
 
 	test.TestFile(t, Attacher(tempDir))
 	test.TestReadOnlyFS(t, Attacher(tempDir))

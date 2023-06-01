@@ -30,9 +30,7 @@ type attacher struct {
 	root string
 }
 
-var (
-	_ p9.Attacher = &attacher{}
-)
+var _ p9.Attacher = &attacher{}
 
 // RootAttacher attaches at the host file system's root.
 func RootAttacher() p9.Attacher {
@@ -58,13 +56,11 @@ type Local struct {
 	p9.DefaultWalkGetAttr
 	templatefs.NoopFile
 
-	path string
 	file *os.File
+	path string
 }
 
-var (
-	_ p9.File = &Local{}
-)
+var _ p9.File = &Local{}
 
 // info constructs a QID for this file.
 func (l *Local) info() (p9.QID, os.FileInfo, error) {

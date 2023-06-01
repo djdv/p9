@@ -22,10 +22,10 @@ import (
 //
 // It is used for both tags and FIDs.
 type pool struct {
-	mu sync.Mutex
-
 	// cache is the set of returned values.
 	cache []uint64
+
+	mu sync.Mutex
 
 	// start is the starting value (if needed).
 	start uint64

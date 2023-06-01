@@ -17,7 +17,6 @@ package p9
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net"
 	"sync"
 
@@ -164,7 +163,7 @@ func recv(l ulog.Logger, r io.Reader, msize uint32, lookup lookupTagAndType) (ta
 	if err != nil {
 		// Throw away the contents of this message.
 		if remaining > 0 {
-			_, _ = io.Copy(ioutil.Discard, io.LimitReader(r, int64(remaining)))
+			_, _ = io.Copy(io.Discard, io.LimitReader(r, int64(remaining)))
 		}
 		return tag, nil, err
 	}
@@ -201,7 +200,7 @@ func recv(l ulog.Logger, r io.Reader, msize uint32, lookup lookupTagAndType) (ta
 		if fixedSize > remaining {
 			// This is not a valid message.
 			if remaining > 0 {
-				_, _ = io.Copy(ioutil.Discard, io.LimitReader(r, int64(remaining)))
+				_, _ = io.Copy(io.Discard, io.LimitReader(r, int64(remaining)))
 			}
 			return noTag, nil, ErrNoValidMessage
 		}

@@ -174,14 +174,14 @@ func (b *buffer) ReadString() string {
 
 	bs := make([]byte, l)
 	for i := 0; i < int(l); i++ {
-		bs[i] = byte(b.Read8())
+		bs[i] = b.Read8()
 	}
 	return string(bs)
 }
 
 // Write8 writes a byte to the buffer.
 func (b *buffer) Write8(v uint8) {
-	b.append(1)[0] = byte(v)
+	b.append(1)[0] = v
 }
 
 // Write16 writes a 16-bit value to the buffer.

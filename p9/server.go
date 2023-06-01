@@ -429,8 +429,7 @@ func (cs *connState) DeleteFID(fid fid) error {
 func (cs *connState) StartTag(t tag) bool {
 	cs.tagMu.Lock()
 	defer cs.tagMu.Unlock()
-	_, ok := cs.tags[t]
-	if ok {
+	if _, ok := cs.tags[t]; ok {
 		return false
 	}
 	cs.tags[t] = make(chan struct{})
