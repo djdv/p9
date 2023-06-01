@@ -1019,8 +1019,7 @@ type rread struct {
 //
 // Data is automatically decoded via Payload.
 func (r *rread) decode(b *buffer) {
-	count := b.Read32()
-	if count != uint32(len(r.Data)) {
+	if count := b.Read32(); count != uint32(len(r.Data)) {
 		b.markOverrun()
 	}
 }
@@ -1097,8 +1096,7 @@ type twrite struct {
 func (t *twrite) decode(b *buffer) {
 	t.fid = b.ReadFID()
 	t.Offset = b.Read64()
-	count := b.Read32()
-	if count != uint32(len(t.Data)) {
+	if count := b.Read32(); count != uint32(len(t.Data)) {
 		b.markOverrun()
 	}
 }
