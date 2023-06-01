@@ -20,7 +20,7 @@ import (
 	"runtime"
 	"sync/atomic"
 
-	"github.com/hugelgupf/p9/errors"
+	"github.com/djdv/p9/errors"
 )
 
 // Attach attaches to a server.

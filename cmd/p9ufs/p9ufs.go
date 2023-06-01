@@ -29,8 +29,8 @@ import (
 	"net"
 	"os"
 
-	"github.com/hugelgupf/p9/fsimpl/localfs"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/fsimpl/localfs"
+	"github.com/djdv/p9/p9"
 	"github.com/u-root/uio/ulog"
 )
 

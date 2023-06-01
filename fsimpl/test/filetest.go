@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/p9"
 )
 
 // TestFile tests attach for all expected p9.Attacher and p9.File behaviors.

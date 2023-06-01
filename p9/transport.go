@@ -22,7 +22,7 @@ import (
 	"net"
 	"sync"
 
-	"github.com/hugelgupf/p9/vecnet"
+	"github.com/djdv/p9/vecnet"
 	"github.com/u-root/uio/ulog"
 )
 

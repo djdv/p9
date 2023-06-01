@@ -19,7 +19,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/hugelgupf/p9/fsimpl/test"
+	"github.com/djdv/p9/fsimpl/test"
 )
 
 func TestLocalFS(t *testing.T) {

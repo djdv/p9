@@ -27,7 +27,7 @@ import (
     "log"
     "net"
 
-    "github.com/hugelgupf/p9/p9"
+    "github.com/djdv/p9/p9"
 )
 
 func main() {

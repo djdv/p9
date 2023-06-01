@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hugelgupf/p9/fsimpl/test/vmdriver"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/fsimpl/test/vmdriver"
+	"github.com/djdv/p9/p9"
 	"github.com/hugelgupf/vmtest"
 	"github.com/hugelgupf/vmtest/qemu"
 	"github.com/u-root/u-root/pkg/uroot"
@@ -38,7 +38,7 @@ func TestIntegration(t *testing.T) {
 	go s.Serve(serverSocket)
 
 	// Run the read-write tests from fsimpl/test/rwvm.
-	vmtest.RunGoTestsInVM(t, []string{"github.com/hugelgupf/p9/fsimpl/test/rwvmtests"}, &vmtest.UrootFSOptions{
+	vmtest.RunGoTestsInVM(t, []string{"github.com/djdv/p9/fsimpl/test/rwvmtests"}, &vmtest.UrootFSOptions{
 		BuildOpts: uroot.Opts{
 			Commands: uroot.BusyBoxCmds(
 				"github.com/u-root/u-root/cmds/core/ls",
@@ -86,7 +86,7 @@ func TestBenchmark(t *testing.T) {
 	go s.Serve(serverSocket)
 
 	// Run the read-write tests from fsimpl/test/rwvm.
-	vmtest.RunGoTestsInVM(t, []string{"github.com/hugelgupf/p9/fsimpl/test/benchmark"}, &vmtest.UrootFSOptions{
+	vmtest.RunGoTestsInVM(t, []string{"github.com/djdv/p9/fsimpl/test/benchmark"}, &vmtest.UrootFSOptions{
 		BuildOpts: uroot.Opts{
 			Commands: uroot.BusyBoxCmds(
 				"github.com/u-root/u-root/cmds/core/ls",

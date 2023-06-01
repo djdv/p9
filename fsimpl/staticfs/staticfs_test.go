@@ -19,8 +19,8 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/hugelgupf/p9/fsimpl/test"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/fsimpl/test"
+	"github.com/djdv/p9/p9"
 )
 
 func TestReadOnlyFS(t *testing.T) {
