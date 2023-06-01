@@ -148,16 +148,13 @@ func (t *tflush) String() string {
 }
 
 // rflush is a flush response.
-type rflush struct {
-}
+type rflush struct{}
 
 // decode implements encoder.decode.
-func (*rflush) decode(b *buffer) {
-}
+func (*rflush) decode(*buffer) {}
 
 // encode implements encoder.encode.
-func (*rflush) encode(b *buffer) {
-}
+func (*rflush) encode(*buffer) {}
 
 // typ implements message.typ.
 func (*rflush) typ() msgType {
@@ -277,12 +274,10 @@ func (t *tclunk) String() string {
 type rclunk struct{}
 
 // decode implements encoder.decode.
-func (*rclunk) decode(b *buffer) {
-}
+func (*rclunk) decode(*buffer) {}
 
 // encode implements encoder.encode.
-func (*rclunk) encode(b *buffer) {
-}
+func (*rclunk) encode(*buffer) {}
 
 // typ implements message.typ.
 func (*rclunk) typ() msgType {
@@ -321,8 +316,7 @@ func (t *tremove) String() string {
 }
 
 // rremove is a remove response.
-type rremove struct {
-}
+type rremove struct{}
 
 // decode implements encoder.decode.
 func (*rremove) decode(b *buffer) {
@@ -709,8 +703,7 @@ func (t *tlink) String() string {
 }
 
 // rlink is a link response.
-type rlink struct {
-}
+type rlink struct{}
 
 // typ implements message.typ.
 func (*rlink) typ() msgType {
@@ -772,8 +765,7 @@ func (t *trenameat) String() string {
 }
 
 // rrenameat is a rename response.
-type rrenameat struct {
-}
+type rrenameat struct{}
 
 // decode implements encoder.decode.
 func (*rrenameat) decode(b *buffer) {
@@ -830,8 +822,7 @@ func (t *tunlinkat) String() string {
 }
 
 // runlinkat is an unlink response.
-type runlinkat struct {
-}
+type runlinkat struct{}
 
 // decode implements encoder.decode.
 func (*runlinkat) decode(b *buffer) {
@@ -888,8 +879,7 @@ func (t *trename) String() string {
 }
 
 // rrename is a rename response.
-type rrename struct {
-}
+type rrename struct{}
 
 // decode implements encoder.decode.
 func (*rrename) decode(b *buffer) {
@@ -1411,8 +1401,7 @@ func (t *tsetattr) String() string {
 }
 
 // rsetattr is a setattr response.
-type rsetattr struct {
-}
+type rsetattr struct{}
 
 // decode implements encoder.decode.
 func (*rsetattr) decode(b *buffer) {
@@ -1539,8 +1528,7 @@ func (t *txattrcreate) String() string {
 }
 
 // rxattrcreate is a xattrcreate response.
-type rxattrcreate struct {
-}
+type rxattrcreate struct{}
 
 // decode implements encoder.decode.
 func (r *rxattrcreate) decode(b *buffer) {
@@ -1700,8 +1688,7 @@ func (t *tfsync) String() string {
 }
 
 // rfsync is an fsync response.
-type rfsync struct {
-}
+type rfsync struct{}
 
 // decode implements encoder.decode.
 func (*rfsync) decode(b *buffer) {

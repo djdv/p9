@@ -133,7 +133,7 @@ func (d *dir) Walk(names []string) ([]p9.QID, p9.File, error) {
 // GetAttr implements p9.File.GetAttr.
 func (d *dir) GetAttr(req p9.AttrMask) (p9.QID, p9.AttrMask, p9.Attr, error) {
 	return d.qid, req, p9.Attr{
-		Mode:  p9.ModeDirectory | 0666,
+		Mode:  p9.ModeDirectory | 0o666,
 		UID:   0,
 		GID:   0,
 		NLink: 2,
@@ -209,7 +209,7 @@ func (f *file) Open(mode p9.OpenFlags) (p9.QID, uint32, error) {
 // GetAttr implements p9.File.GetAttr.
 func (f *file) GetAttr(req p9.AttrMask) (p9.QID, p9.AttrMask, p9.Attr, error) {
 	return f.qid, req, p9.Attr{
-		Mode:      p9.ModeRegular | 0666,
+		Mode:      p9.ModeRegular | 0o666,
 		UID:       0,
 		GID:       0,
 		NLink:     0,

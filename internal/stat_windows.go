@@ -36,20 +36,19 @@ func InfoToStat(fi os.FileInfo) *Stat_t {
 			Nsec: fi.ModTime().UnixNano(),
 		},
 	}
-
 }
 
 // TODO: copied from pkg p9
 // we should probably migrate the OS methods from p9 into sys
 const (
-	FileModeMask        uint32 = 0170000
-	ModeSocket                 = 0140000
-	ModeSymlink                = 0120000
-	ModeRegular                = 0100000
-	ModeBlockDevice            = 060000
-	ModeDirectory              = 040000
-	ModeCharacterDevice        = 020000
-	ModeNamedPipe              = 010000
+	FileModeMask        uint32 = 0o170000
+	ModeSocket                 = 0o140000
+	ModeSymlink                = 0o120000
+	ModeRegular                = 0o100000
+	ModeBlockDevice            = 0o60000
+	ModeDirectory              = 0o40000
+	ModeCharacterDevice        = 0o20000
+	ModeNamedPipe              = 0o10000
 )
 
 func modeFromOS(mode os.FileMode) uint32 {
