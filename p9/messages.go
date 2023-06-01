@@ -163,7 +163,7 @@ func (*rflush) typ() msgType {
 
 // String implements fmt.Stringer.
 func (r *rflush) String() string {
-	return fmt.Sprintf("Rflush{}")
+	return "Rflush{}"
 }
 
 // twalk is a walk request.
@@ -286,7 +286,7 @@ func (*rclunk) typ() msgType {
 
 // String implements fmt.Stringer.
 func (r *rclunk) String() string {
-	return fmt.Sprintf("Rclunk{}")
+	return "Rclunk{}"
 }
 
 // tremove is a remove request.
@@ -333,7 +333,7 @@ func (*rremove) typ() msgType {
 
 // String implements fmt.Stringer.
 func (r *rremove) String() string {
-	return fmt.Sprintf("Rremove{}")
+	return "Rremove{}"
 }
 
 // rlerror is an error response.
@@ -720,7 +720,7 @@ func (*rlink) encode(b *buffer) {
 
 // String implements fmt.Stringer.
 func (r *rlink) String() string {
-	return fmt.Sprintf("Rlink{}")
+	return "Rlink{}"
 }
 
 // trenameat is a rename request.
@@ -782,7 +782,7 @@ func (*rrenameat) typ() msgType {
 
 // String implements fmt.Stringer.
 func (r *rrenameat) String() string {
-	return fmt.Sprintf("Rrenameat{}")
+	return "Rrenameat{}"
 }
 
 // tunlinkat is an unlink request.
@@ -839,7 +839,7 @@ func (*runlinkat) typ() msgType {
 
 // String implements fmt.Stringer.
 func (r *runlinkat) String() string {
-	return fmt.Sprintf("Runlinkat{}")
+	return "Runlinkat{}"
 }
 
 // trename is a rename request.
@@ -896,7 +896,7 @@ func (*rrename) typ() msgType {
 
 // String implements fmt.Stringer.
 func (r *rrename) String() string {
-	return fmt.Sprintf("Rrename{}")
+	return "Rrename{}"
 }
 
 // treadlink is a readlink request.
@@ -1418,7 +1418,7 @@ func (*rsetattr) typ() msgType {
 
 // String implements fmt.Stringer.
 func (r *rsetattr) String() string {
-	return fmt.Sprintf("Rsetattr{}")
+	return "Rsetattr{}"
 }
 
 // txattrwalk walks extended attributes.
@@ -1545,7 +1545,7 @@ func (*rxattrcreate) typ() msgType {
 
 // String implements fmt.Stringer.
 func (r *rxattrcreate) String() string {
-	return fmt.Sprintf("Rxattrcreate{}")
+	return "Rxattrcreate{}"
 }
 
 // treaddir is a readdir request.
@@ -1705,7 +1705,7 @@ func (*rfsync) typ() msgType {
 
 // String implements fmt.Stringer.
 func (r *rfsync) String() string {
-	return fmt.Sprintf("Rfsync{}")
+	return "Rfsync{}"
 }
 
 // tstatfs is a stat request.
