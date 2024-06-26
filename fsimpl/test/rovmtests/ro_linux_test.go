@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/hugelgupf/p9/fsimpl/test/rovmtests"
+	"github.com/djdv/p9/fsimpl/test/rovmtests"
 	"github.com/hugelgupf/vmtest/guest"
 	"github.com/u-root/u-root/pkg/mount"
 	"github.com/u-root/u-root/pkg/sh"

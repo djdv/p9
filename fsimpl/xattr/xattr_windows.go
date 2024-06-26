@@ -1,6 +1,6 @@
 package xattr
 
-import "github.com/hugelgupf/p9/errors"
+import "github.com/djdv/p9/errors"
 
 func List(p string) ([]string, error) {
 	return nil, errors.ENOSYS

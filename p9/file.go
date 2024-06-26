@@ -14,7 +14,7 @@
 
 package p9
 
-import "github.com/hugelgupf/p9/errors"
+import "github.com/djdv/p9/errors"
 
 // Attacher is provided by the server.
 type Attacher interface {

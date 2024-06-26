@@ -23,8 +23,8 @@
 package templatefs
 
 import (
-	"github.com/hugelgupf/p9/errors"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/errors"
+	"github.com/djdv/p9/p9"
 )
 
 // NilCloser returns nil for Close.

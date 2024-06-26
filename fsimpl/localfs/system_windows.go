@@ -3,8 +3,8 @@ package localfs
 import (
 	"os"
 
-	"github.com/hugelgupf/p9/errors"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/errors"
+	"github.com/djdv/p9/p9"
 	"golang.org/x/sys/windows"
 )
 

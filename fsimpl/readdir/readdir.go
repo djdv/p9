@@ -1,7 +1,7 @@
 package readdir
 
 import (
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/p9"
 )
 
 func min(a, b uint64) uint64 {

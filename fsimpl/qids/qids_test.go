@@ -3,7 +3,7 @@ package qids
 import (
 	"testing"
 
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/p9"
 )
 
 func TestGen(t *testing.T) {

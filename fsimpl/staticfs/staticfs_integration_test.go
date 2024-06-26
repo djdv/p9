@@ -14,9 +14,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hugelgupf/p9/fsimpl/test/rovmtests"
-	"github.com/hugelgupf/p9/fsimpl/test/vmdriver"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/fsimpl/test/rovmtests"
+	"github.com/djdv/p9/fsimpl/test/vmdriver"
+	"github.com/djdv/p9/p9"
 	"github.com/hugelgupf/vmtest"
 	"github.com/hugelgupf/vmtest/qemu"
 	"github.com/u-root/u-root/pkg/uroot"
@@ -75,7 +75,7 @@ func TestLinuxClient(t *testing.T) {
 	s := p9.NewServer(attacher, p9.WithServerLogger(ulogtest.Logger{TB: t}))
 
 	// Run the read tests from fsimpl/test/rovmtests.
-	vmtest.RunGoTestsInVM(t, []string{"github.com/hugelgupf/p9/fsimpl/test/rovmtests"},
+	vmtest.RunGoTestsInVM(t, []string{"github.com/djdv/p9/fsimpl/test/rovmtests"},
 		vmtest.WithVMOpt(
 			vmtest.WithMergedInitramfs(uroot.Opts{
 				Commands: uroot.BusyBoxCmds(

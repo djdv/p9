@@ -23,7 +23,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/hugelgupf/p9/errors"
+	"github.com/djdv/p9/errors"
 )
 
 // newErr returns a new error message from an error.

@@ -4,7 +4,7 @@ import (
 	"io"
 	"path"
 
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/p9"
 )
 
 // Readdir implements p9.File.Readdir.

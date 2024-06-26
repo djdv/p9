@@ -19,11 +19,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hugelgupf/p9/errors"
-	"github.com/hugelgupf/p9/fsimpl/qids"
-	"github.com/hugelgupf/p9/fsimpl/readdir"
-	"github.com/hugelgupf/p9/fsimpl/templatefs"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/errors"
+	"github.com/djdv/p9/fsimpl/qids"
+	"github.com/djdv/p9/fsimpl/readdir"
+	"github.com/djdv/p9/fsimpl/templatefs"
+	"github.com/djdv/p9/p9"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 )

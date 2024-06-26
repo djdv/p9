@@ -26,7 +26,7 @@ import (
 	"strings"
 	"sync/atomic"
 
-	"github.com/hugelgupf/p9/internal"
+	"github.com/djdv/p9/internal"
 )
 
 // Debug can be assigned to log.Printf to print messages received and sent.

@@ -3,7 +3,7 @@ package qids
 import (
 	"sync/atomic"
 
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/p9"
 )
 
 // A PathGenerator allocates paths for a 9P file system.

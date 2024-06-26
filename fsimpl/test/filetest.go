@@ -21,7 +21,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/p9"
 	"github.com/u-root/uio/uio"
 	"golang.org/x/exp/slices"
 )

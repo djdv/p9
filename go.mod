@@ -1,4 +1,4 @@
-module github.com/hugelgupf/p9
+module github.com/djdv/p9
 
 go 1.21
 

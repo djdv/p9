@@ -16,9 +16,9 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/hugelgupf/p9/fsimpl/localfs"
-	"github.com/hugelgupf/p9/fsimpl/xattr"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/fsimpl/localfs"
+	"github.com/djdv/p9/fsimpl/xattr"
+	"github.com/djdv/p9/p9"
 	"github.com/hugelgupf/vmtest/guest"
 	"github.com/u-root/u-root/pkg/mount"
 	"github.com/u-root/u-root/pkg/sh"

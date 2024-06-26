@@ -20,10 +20,10 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/hugelgupf/p9/errors"
-	"github.com/hugelgupf/p9/fsimpl/templatefs"
-	"github.com/hugelgupf/p9/internal"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/errors"
+	"github.com/djdv/p9/fsimpl/templatefs"
+	"github.com/djdv/p9/internal"
+	"github.com/djdv/p9/p9"
 )
 
 type attacher struct {

@@ -14,8 +14,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hugelgupf/p9/fsimpl/test/vmdriver"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/fsimpl/test/vmdriver"
+	"github.com/djdv/p9/p9"
 	"github.com/hugelgupf/vmtest"
 	"github.com/hugelgupf/vmtest/qemu"
 	"github.com/u-root/u-root/pkg/uroot"
@@ -39,7 +39,7 @@ func TestIntegration(t *testing.T) {
 	}
 
 	// Run the read-write tests from fsimpl/test/rwvm.
-	vmtest.RunGoTestsInVM(t, []string{"github.com/hugelgupf/p9/fsimpl/test/rwvmtests"},
+	vmtest.RunGoTestsInVM(t, []string{"github.com/djdv/p9/fsimpl/test/rwvmtests"},
 		vmtest.WithVMOpt(
 			vmtest.WithMergedInitramfs(uroot.Opts{
 				Commands: uroot.BusyBoxCmds(
@@ -87,7 +87,7 @@ func TestBenchmark(t *testing.T) {
 	s := p9.NewServer(Attacher(tempDir)) //, p9.WithServerLogger(ulogtest.Logger{TB: t}))
 
 	// Run the read-write tests from fsimpl/test/rwvm.
-	vmtest.RunGoTestsInVM(t, []string{"github.com/hugelgupf/p9/fsimpl/test/benchmark"},
+	vmtest.RunGoTestsInVM(t, []string{"github.com/djdv/p9/fsimpl/test/benchmark"},
 		vmtest.WithVMOpt(
 			vmtest.WithMergedInitramfs(uroot.Opts{
 				Commands: uroot.BusyBoxCmds(

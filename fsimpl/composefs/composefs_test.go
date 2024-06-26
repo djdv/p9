@@ -19,10 +19,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/hugelgupf/p9/fsimpl/localfs"
-	"github.com/hugelgupf/p9/fsimpl/staticfs"
-	"github.com/hugelgupf/p9/fsimpl/test"
-	"github.com/hugelgupf/p9/p9"
+	"github.com/djdv/p9/fsimpl/localfs"
+	"github.com/djdv/p9/fsimpl/staticfs"
+	"github.com/djdv/p9/fsimpl/test"
+	"github.com/djdv/p9/p9"
 )
 
 func TestFilesMatch(t *testing.T) {
