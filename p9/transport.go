@@ -15,13 +15,13 @@
 package p9
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net"
 	"sync"
 
+	"github.com/hugelgupf/p9/errors"
 	"github.com/hugelgupf/p9/vecnet"
 	"github.com/u-root/uio/ulog"
 )
@@ -53,7 +53,7 @@ func (e *ErrMessageTooLarge) Error() string {
 }
 
 // ErrNoValidMessage indicates no valid message could be decoded.
-var ErrNoValidMessage = errors.New("buffer contained no valid message")
+var ErrNoValidMessage = errors.Const("buffer contained no valid message")
 
 const (
 	// headerLength is the number of bytes required for a header.

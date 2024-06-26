@@ -17,23 +17,22 @@
 package composefs
 
 import (
-	"errors"
 	"fmt"
 	"path/filepath"
 	"strings"
 
+	"github.com/hugelgupf/p9/errors"
 	"github.com/hugelgupf/p9/fsimpl/qids"
 	"github.com/hugelgupf/p9/fsimpl/readdir"
 	"github.com/hugelgupf/p9/fsimpl/templatefs"
-	"github.com/hugelgupf/p9/linux"
 	"github.com/hugelgupf/p9/p9"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 )
 
 var (
-	ErrFlatHierarchy = errors.New("composefs only supports a flat hierarchy")
-	ErrFileExists    = errors.New("file already exists")
+	ErrFlatHierarchy = errors.Const("composefs only supports a flat hierarchy")
+	ErrFileExists    = errors.Const("file already exists")
 )
 
 type Opt func(fs *FS) error
@@ -119,10 +118,8 @@ var (
 	_ p9.Attacher = &FS{}
 )
 
-var (
-	// PathGenerator leaves Path: 0 unused.
-	rootQID = p9.QID{Type: p9.TypeDir, Path: 0, Version: 0}
-)
+// PathGenerator leaves Path: 0 unused.
+var rootQID = p9.QID{Type: p9.TypeDir, Path: 0, Version: 0}
 
 // Walk implements p9.File.Walk.
 func (r *root) Walk(names []string) ([]p9.QID, p9.File, error) {
@@ -132,7 +129,7 @@ func (r *root) Walk(names []string) ([]p9.QID, p9.File, error) {
 
 	file, ok := r.fs.mounts[names[0]]
 	if !ok {
-		return nil, nil, linux.ENOENT
+		return nil, nil, errors.ENOENT
 	}
 
 	// Even if len(names) == 1, get a cloned p9.File. Never return the
@@ -159,7 +156,7 @@ func (r *root) Walk(names []string) ([]p9.QID, p9.File, error) {
 // Open implements p9.File.Open.
 func (r *root) Open(mode p9.OpenFlags) (p9.QID, uint32, error) {
 	if mode.Mode() != p9.ReadOnly {
-		return p9.QID{}, 0, linux.EACCES
+		return p9.QID{}, 0, errors.EACCES
 	}
 	return p9.QID{}, 0, nil
 }
@@ -182,13 +179,13 @@ func (r *root) Readdir(offset uint64, count uint32) (p9.Dirents, error) {
 
 // StatFS implements p9.File.StatFS.
 func (*root) StatFS() (p9.FSStat, error) {
-	return p9.FSStat{}, linux.ENOSYS
+	return p9.FSStat{}, errors.ENOSYS
 }
 
 // GetAttr implements p9.File.GetAttr.
 func (r *root) GetAttr(req p9.AttrMask) (p9.QID, p9.AttrMask, p9.Attr, error) {
 	attr := p9.Attr{
-		Mode:      p9.FileMode(0777) | p9.ModeDirectory,
+		Mode:      p9.FileMode(0o777) | p9.ModeDirectory,
 		NLink:     p9.NLink(1 + len(r.fs.mounts)),
 		BlockSize: uint64(4096),
 	}

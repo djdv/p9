@@ -16,7 +16,7 @@ package p9
 
 import (
 	"context"
-	"errors"
+	goerrors "errors"
 	"fmt"
 	"io"
 	"net"
@@ -25,7 +25,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/hugelgupf/p9/linux"
+	"github.com/hugelgupf/p9/errors"
 	"github.com/u-root/uio/ulog"
 )
 
@@ -247,7 +247,7 @@ func (f *fidRef) DecRef() error {
 				errs = append(errs, pErr)
 			}
 		}
-		return errors.Join(errs...)
+		return goerrors.Join(errs...)
 	}
 	return nil
 }
@@ -417,7 +417,7 @@ func (cs *connState) DeleteFID(fid fid) error {
 	defer cs.fidMu.Unlock()
 	fidRef, ok := cs.fids[fid]
 	if !ok {
-		return linux.EBADF
+		return errors.EBADF
 	}
 	delete(cs.fids, fid)
 	return fidRef.DecRef()
@@ -562,7 +562,7 @@ func (cs *connState) handle(m message) (r message) {
 			// Wrap in an EFAULT error; we don't really have a
 			// better way to describe this kind of error. It will
 			// usually manifest as a result of the test framework.
-			r = newErr(linux.EFAULT)
+			r = newErr(errors.EFAULT)
 		}
 	}()
 
@@ -571,7 +571,7 @@ func (cs *connState) handle(m message) (r message) {
 		r = handler.handle(cs)
 	} else {
 		// Produce an ENOSYS error.
-		r = newErr(linux.ENOSYS)
+		r = newErr(errors.ENOSYS)
 	}
 	return
 }
@@ -630,7 +630,7 @@ func (s *Server) Serve(serverSocket net.Listener) error {
 	return s.ServeContext(nil, serverSocket)
 }
 
-var errAlreadyClosed = errors.New("already closed")
+var errAlreadyClosed = errors.Const("already closed")
 
 // ServeContext handles requests from the bound socket.
 //
@@ -652,7 +652,7 @@ func (s *Server) ServeContext(ctx context.Context, serverSocket net.Listener) er
 			<-ctx.Done()
 
 			// Only close the server socket if it wasn't already closed.
-			if err := ctx.Err(); errors.Is(err, errAlreadyClosed) {
+			if err := ctx.Err(); goerrors.Is(err, errAlreadyClosed) {
 				return
 			}
 			serverSocket.Close()

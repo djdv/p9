@@ -1,11 +1,11 @@
 package xattr
 
-import "github.com/hugelgupf/p9/linux"
+import "github.com/hugelgupf/p9/errors"
 
 func List(p string) ([]string, error) {
-	return nil, linux.ENOSYS
+	return nil, errors.ENOSYS
 }
 
 func Get(p string, attr string) ([]byte, error) {
-	return nil, linux.ENOSYS
+	return nil, errors.ENOSYS
 }

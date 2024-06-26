@@ -23,7 +23,7 @@
 package templatefs
 
 import (
-	"github.com/hugelgupf/p9/linux"
+	"github.com/hugelgupf/p9/errors"
 	"github.com/hugelgupf/p9/p9"
 )
 
@@ -66,100 +66,98 @@ type NoopFile struct {
 	NoopRenamed
 }
 
-var (
-	_ p9.File = &NoopFile{}
-)
+var _ p9.File = &NoopFile{}
 
 // Walk implements p9.File.Walk.
 func (NotImplementedFile) Walk(names []string) ([]p9.QID, p9.File, error) {
-	return nil, nil, linux.ENOSYS
+	return nil, nil, errors.ENOSYS
 }
 
 // StatFS implements p9.File.StatFS.
 //
 // Not implemented.
 func (NotImplementedFile) StatFS() (p9.FSStat, error) {
-	return p9.FSStat{}, linux.ENOSYS
+	return p9.FSStat{}, errors.ENOSYS
 }
 
 // Open implements p9.File.Open.
 func (NotImplementedFile) Open(mode p9.OpenFlags) (p9.QID, uint32, error) {
-	return p9.QID{}, 0, linux.ENOSYS
+	return p9.QID{}, 0, errors.ENOSYS
 }
 
 // ReadAt implements p9.File.ReadAt.
 func (NotImplementedFile) ReadAt(p []byte, offset int64) (int, error) {
-	return 0, linux.ENOSYS
+	return 0, errors.ENOSYS
 }
 
 // GetAttr implements p9.File.GetAttr.
 func (NotImplementedFile) GetAttr(req p9.AttrMask) (p9.QID, p9.AttrMask, p9.Attr, error) {
-	return p9.QID{}, p9.AttrMask{}, p9.Attr{}, linux.ENOSYS
+	return p9.QID{}, p9.AttrMask{}, p9.Attr{}, errors.ENOSYS
 }
 
 // SetAttr implements p9.File.SetAttr.
 func (NotImplementedFile) SetAttr(valid p9.SetAttrMask, attr p9.SetAttr) error {
-	return linux.ENOSYS
+	return errors.ENOSYS
 }
 
 // Remove implements p9.File.Remove.
 func (NotImplementedFile) Remove() error {
-	return linux.ENOSYS
+	return errors.ENOSYS
 }
 
 // Rename implements p9.File.Rename.
 func (NotImplementedFile) Rename(directory p9.File, name string) error {
-	return linux.ENOSYS
+	return errors.ENOSYS
 }
 
 // WriteAt implements p9.File.WriteAt.
 func (NotImplementedFile) WriteAt(p []byte, offset int64) (int, error) {
-	return 0, linux.ENOSYS
+	return 0, errors.ENOSYS
 }
 
 // Create implements p9.File.Create.
 func (NotImplementedFile) Create(name string, mode p9.OpenFlags, permissions p9.FileMode, _ p9.UID, _ p9.GID) (p9.File, p9.QID, uint32, error) {
-	return nil, p9.QID{}, 0, linux.ENOSYS
+	return nil, p9.QID{}, 0, errors.ENOSYS
 }
 
 // Mkdir implements p9.File.Mkdir.
 func (NotImplementedFile) Mkdir(name string, permissions p9.FileMode, _ p9.UID, _ p9.GID) (p9.QID, error) {
-	return p9.QID{}, linux.ENOSYS
+	return p9.QID{}, errors.ENOSYS
 }
 
 // Symlink implements p9.File.Symlink.
 func (NotImplementedFile) Symlink(oldname string, newname string, _ p9.UID, _ p9.GID) (p9.QID, error) {
-	return p9.QID{}, linux.ENOSYS
+	return p9.QID{}, errors.ENOSYS
 }
 
 // Link implements p9.File.Link.
 func (NotImplementedFile) Link(target p9.File, newname string) error {
-	return linux.ENOSYS
+	return errors.ENOSYS
 }
 
 // Mknod implements p9.File.Mknod.
 func (NotImplementedFile) Mknod(name string, mode p9.FileMode, major uint32, minor uint32, _ p9.UID, _ p9.GID) (p9.QID, error) {
-	return p9.QID{}, linux.ENOSYS
+	return p9.QID{}, errors.ENOSYS
 }
 
 // RenameAt implements p9.File.RenameAt.
 func (NotImplementedFile) RenameAt(oldname string, newdir p9.File, newname string) error {
-	return linux.ENOSYS
+	return errors.ENOSYS
 }
 
 // UnlinkAt implements p9.File.UnlinkAt.
 func (NotImplementedFile) UnlinkAt(name string, flags uint32) error {
-	return linux.ENOSYS
+	return errors.ENOSYS
 }
 
 // Readdir implements p9.File.Readdir.
 func (NotImplementedFile) Readdir(offset uint64, count uint32) (p9.Dirents, error) {
-	return nil, linux.ENOSYS
+	return nil, errors.ENOSYS
 }
 
 // Readlink implements p9.File.Readlink.
 func (NotImplementedFile) Readlink() (string, error) {
-	return "", linux.ENOSYS
+	return "", errors.ENOSYS
 }
 
 // XattrUnimplemented implements Xattr methods returning ENOSYS.
@@ -167,27 +165,27 @@ type XattrUnimplemented struct{}
 
 // SetXattr implements p9.File.SetXattr.
 func (XattrUnimplemented) SetXattr(attr string, data []byte, flags p9.XattrFlags) error {
-	return linux.ENOSYS
+	return errors.ENOSYS
 }
 
 // GetXattr implements p9.File.GetXattr.
 func (XattrUnimplemented) GetXattr(attr string) ([]byte, error) {
-	return nil, linux.ENOSYS
+	return nil, errors.ENOSYS
 }
 
 // ListXattrs implements p9.File.ListXattrs.
 func (XattrUnimplemented) ListXattrs() ([]string, error) {
-	return nil, linux.ENOSYS
+	return nil, errors.ENOSYS
 }
 
 // RemoveXattr implements p9.File.RemoveXattr.
 func (XattrUnimplemented) RemoveXattr(attr string) error {
-	return linux.ENOSYS
+	return errors.ENOSYS
 }
 
 type NotLockable struct{}
 
 // Lock implements p9.File.Lock.
 func (NotLockable) Lock(pid int, locktype p9.LockType, flags p9.LockFlags, start, length uint64, client string) (p9.LockStatus, error) {
-	return p9.LockStatusOK, linux.ENOSYS
+	return p9.LockStatusOK, errors.ENOSYS
 }
